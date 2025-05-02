@@ -1,96 +1,78 @@
-# PDF to Excel Microservice 📄➡️📊
 
-This microservice allows you to convert PDF files into Excel format via a simple HTTP API. It is built using **FastAPI**, and designed to be easily integrated with other backend systems or front-end applications.
+# PDF to Excel Conversion API
 
----
+This project is a FastAPI-based microservice that allows users to upload PDF files and convert them into Excel format. It uses the Gemini API by Google to process the PDF and extract the content, which is then structured into a table and saved as an Excel file. The converted Excel file is then returned to the user for download.
 
-## 🚀 Features
+## Features
 
-- Accepts PDF files via POST requests
-- Extracts text from PDF using `PyMuPDF`
-- Converts the extracted text into a table-like structure
-- Exports the data into an `.xlsx` file using `pandas` and `openpyxl`
-- Returns the Excel file as a downloadable response
+- **PDF Upload**: Accepts PDF files for conversion.
+- **Gemini API**: Uses Google's Gemini API to process and extract structured data from the PDF.
+- **Excel Output**: Converts the extracted data into an Excel `.xlsx` file.
+- **FastAPI**: Fast and efficient web framework for building the service.
 
----
+## Requirements
 
-## 🔧 Tech Stack
+- Python 3.8+
+- FastAPI
+- Uvicorn
+- google-generativeai (Gemini API SDK)
+- python-dotenv
+- pandas
+- openpyxl
+- python-multipart
 
-- [FastAPI](https://fastapi.tiangolo.com/)
-- [PyMuPDF](https://pymupdf.readthedocs.io/)
-- [Pandas](https://pandas.pydata.org/)
-- [Uvicorn](https://www.uvicorn.org/)
-- [OpenPyXL](https://openpyxl.readthedocs.io/)
+## Installation
 
----
-
-## 📦 Installation (local)
+1. Clone this repository:
 
 ```bash
-# Clone the repo
 git clone https://github.com/your-username/pdf-to-excel-service.git
 cd pdf-to-excel-service
+```
 
-# Create virtual environment (optional but recommended)
+2. Create a virtual environment:
+
+```bash
 python -m venv venv
-source venv/bin/activate  # or venv\Scripts\activate on Windows
+source venv/bin/activate  # For Windows: venv/Scripts/activate
+```
 
-# Install dependencies
+3. Install the required dependencies:
+
+```bash
 pip install -r requirements.txt
+```
 
-# Run the server
+4. Add your Gemini API key in a `.env` file in the root directory:
+
+```
+GEMINI_API_KEY=your_actual_api_key_here
+```
+
+## Usage
+
+1. Run the FastAPI server:
+
+```bash
 uvicorn main:app --reload
 ```
 
-The service will be available at `http://localhost:8000`
+2. Open the API documentation at [http://localhost:8000/docs](http://localhost:8000/docs) to interact with the API.
 
----
+3. Use the `/convert` endpoint to upload a PDF file and receive the converted Excel file.
 
-## 🧪 API Usage
+## Example Request (via Swagger UI)
 
-**Endpoint:**  
-`POST /convert`
+- **Method**: POST
+- **Endpoint**: `/convert`
+- **Body**: PDF file (type `application/pdf`)
 
-**Form Data:**
-- `file`: PDF file to convert (type: `application/pdf`)
+The response will contain the Excel file in `.xlsx` format.
 
-**Response:**  
-Returns the `.xlsx` file as a downloadable response.
+## Development
 
-**Example with curl:**
+To run the project locally for development, ensure that you have set up the `.env` file with your Gemini API key, and install all required dependencies.
 
-```bash
-curl -X POST "http://localhost:8000/convert" \
-  -H "accept: application/json" \
-  -F "file=@yourfile.pdf" \
-  --output converted.xlsx
-```
-
----
-
-## ☁️ Deploy to Render
-
-Create a `.render.yaml` file with the following content:
-
-```yaml
-services:
-  - type: web
-    name: pdf-to-excel
-    runtime: python
-    buildCommand: pip install -r requirements.txt
-    startCommand: uvicorn main:app --host 0.0.0.0 --port 10000
-```
-
-Push to GitHub and create a **Web Service** in [Render](https://render.com/).
-
----
-
-## 📄 License
+## License
 
 This project is licensed under the MIT License.
-
----
-
-## ✨ Author
-
-Made with ❤️ by [Maria García](https://github.com/mvgarc)
